@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 class PokemonIndexItem extends Component {
   constructor(props) {
@@ -6,11 +7,13 @@ class PokemonIndexItem extends Component {
   }
 
   render() {
-    const poke = this.props;
+    const poke = this.props.props;
     return (
       <li>
-        <img src={poke.image_url} />
-        {poke.name}
+        <Link to={"/pokemon/" +poke.id}>
+          <img src={poke.image_url} />
+          {poke.name}
+        </Link>
       </li>
     );
   }
