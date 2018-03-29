@@ -1418,12 +1418,15 @@ function compose() {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.requestAllPokemon = exports.receiveAllPokemon = exports.REQUEST_ALL_POKEMON = exports.RECEIVE_ALL_POKEMON = undefined;
+exports.requestOnePokemon = exports.receiveOnePokemon = exports.requestAllPokemon = exports.receiveAllPokemon = exports.REQUEST_ONE_POKEMON = exports.RECEIVE_ONE_POKEMON = exports.REQUEST_ALL_POKEMON = exports.RECEIVE_ALL_POKEMON = undefined;
 
 var _api_utils = __webpack_require__(55);
 
 var RECEIVE_ALL_POKEMON = exports.RECEIVE_ALL_POKEMON = 'RECEIVE_ALL_POKEMON';
 var REQUEST_ALL_POKEMON = exports.REQUEST_ALL_POKEMON = 'REQUEST_ALL_POKEMON';
+var RECEIVE_ONE_POKEMON = exports.RECEIVE_ONE_POKEMON = 'RECEIVE_ONE_POKEMON';
+var REQUEST_ONE_POKEMON = exports.REQUEST_ONE_POKEMON = 'REQUEST_ONE_POKEMON';
+
 var receiveAllPokemon = exports.receiveAllPokemon = function receiveAllPokemon(pokemon) {
   return {
     type: RECEIVE_ALL_POKEMON,
@@ -1435,6 +1438,21 @@ var requestAllPokemon = exports.requestAllPokemon = function requestAllPokemon()
   return function (dispatch) {
     return (0, _api_utils.fetchAllPokemon)().then(function (pokemon) {
       return dispatch(receiveAllPokemon(pokemon));
+    });
+  };
+};
+
+var receiveOnePokemon = exports.receiveOnePokemon = function receiveOnePokemon(pokemon) {
+  return {
+    type: RECEIVE_ONE_POKEMON,
+    pokemon: pokemon
+  };
+};
+
+var requestOnePokemon = exports.requestOnePokemon = function requestOnePokemon() {
+  return function (dispatch) {
+    return (0, _api_utils.fetchOnePokemon)().then(function (pokemon) {
+      return dispatch(receiveOnePokemon(pokemon));
     });
   };
 };
@@ -19421,10 +19439,15 @@ var _pokemon_reducer = __webpack_require__(52);
 
 var _pokemon_reducer2 = _interopRequireDefault(_pokemon_reducer);
 
+var _item_reducer = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./item_reducer\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+
+var _item_reducer2 = _interopRequireDefault(_item_reducer);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var entitiesReducer = (0, _redux.combineReducers)({
-  pokemon: _pokemon_reducer2.default
+  pokemon: _pokemon_reducer2.default,
+  item: _item_reducer2.default
 });
 
 exports.default = entitiesReducer;
@@ -19450,6 +19473,8 @@ var pokemonReducer = exports.pokemonReducer = function pokemonReducer() {
   Object.freeze(state);
   switch (action.type) {
     case _pokemon_actions.RECEIVE_ALL_POKEMON:
+      return action.pokemon;
+    case _pokemon_actions.RECEIVE_ONE_POKEMON:
       return action.pokemon;
     default:
       return state;
@@ -19506,6 +19531,20 @@ var fetchAllPokemon = exports.fetchAllPokemon = function fetchAllPokemon() {
   return $.ajax({
     method: 'GET',
     url: '/api/pokemon'
+  });
+};
+
+var fetchOnePokemon = exports.fetchOnePokemon = function fetchOnePokemon(id) {
+  return $.ajax({
+    method: 'GET',
+    url: '/api/pokemon/' + id
+  });
+};
+
+var fetchItems = exports.fetchItems = function fetchItems(id) {
+  return $.ajax({
+    method: 'GET',
+    url: '/api/pokemon/' + id
   });
 };
 
