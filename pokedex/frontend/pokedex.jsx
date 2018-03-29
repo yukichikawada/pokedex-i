@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import configureStore from './store/store';
 import { fetchAllPokemon } from './util/api_utils';
-import { receiveAllPokemon } from './actions/pokemon_actions';
+import { receiveAllPokemon, requestAllPokemon } from './actions/pokemon_actions';
 
 document.addEventListener('DOMContentLoaded', () => {
   const rootEl = document.getElementById('root');
@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
   window.store = store;
   window.receiveAllPokemon = receiveAllPokemon;
   window.dispatch = store.dispatch;
+  window.requestAllPokemon = requestAllPokemon;
   window.fetchAllPokemon = fetchAllPokemon;
   ReactDOM.render(<h1>Pokedex</h1>, rootEl);
 });
